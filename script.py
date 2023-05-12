@@ -100,20 +100,23 @@ while not correctFile:
         root.withdraw()
         file_path = filedialog.askopenfilename()
 
-        if file_path:
+        if file_path and file_path[-4:] == 'xlsx':
             abs_path = os.path.abspath(file_path)
             print("File path:", abs_path)
             # Show a message box to let the user know that the program is done
             messagebox.showinfo(
                 "Warning", "Warning: It may take a few seconds for the program to grab what it needs.")
 
-        else:
-            msg = "No file selected."
-            print(msg)
+            workbook = openpyxl.load_workbook(abs_path)
 
-        workbook = openpyxl.load_workbook(abs_path)
-        if workbook:
-            correctFile = True
+            if workbook:
+                correctFile = True
+
+        else:
+            msg = "No file selected or invalid file."
+            print(msg)
+            messagebox.showinfo(
+                "Warning", "Invalid file. Please select a valid .xlsx file.")
 
     except Exception:
         msg = "Invalid file. Please select a valid .xlsx file."
@@ -298,5 +301,6 @@ while haveAllColumn:
     if savePath:
         wb.save(savePath + '.xlsx')
         wb.close()
-
+        messagebox.showinfo(
+            "Congrats", "Congratulations! Your file is complete.")
         haveAllColumn = False
