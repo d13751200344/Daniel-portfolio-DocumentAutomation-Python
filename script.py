@@ -199,7 +199,7 @@ while haveAllColumn:
 
     while count <= int(lastRow):
         if (sheet.cell(row=count, column=fiscalYearColumn).value == str(selectedYear)):
-            if (sheet.cell(row=count, column=statusColumn).value.strip().lower() == 'completed') or (sheet.cell(row=count, column=statusColumn).value.strip().lower() == 'in progress') or (sheet.cell(row=count, column=statusColumn).value.strip().lower() == 'duplicate') or (sheet.cell(row=count, column=statusColumn).value.strip().lower() == 'waiting for sign off'):
+            if (sheet.cell(row=count, column=statusColumn).value.strip().lower() == 'completed') or (sheet.cell(row=count, column=statusColumn).value.strip().lower() == 'in progress') or (sheet.cell(row=count, column=statusColumn).value[:9].strip().lower() == 'duplicate') or (sheet.cell(row=count, column=statusColumn).value[:16].strip().lower() == 'waiting for sign'):
 
                 # count the number of projects
                 projectCountSet.add(sheet.cell(
