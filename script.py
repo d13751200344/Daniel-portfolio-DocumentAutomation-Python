@@ -103,11 +103,60 @@ while not correctFile:
         if file_path and file_path[-4:] == 'xlsx':
             abs_path = os.path.abspath(file_path)
             print("File path:", abs_path)
-            # Show a message box to let the user know that the program is done
-            messagebox.showinfo(
-                "Warning", "Warning: It may take a few seconds for the program to grab what it needs.")
 
-            workbook = openpyxl.load_workbook(abs_path)
+            class ExcelLoader:
+                def __init__(self, master, abs_path):
+                    self.master = master
+                    self.master.title("Excel Loader")
+                    self.abs_path = abs_path
+
+                    # Create labels
+                    self.loading_label = tk.Label(
+                        self.master, text="Loading may take you a few seconds...", font=("Arial", 16))
+                    self.loading_label.pack(pady=20)
+
+                    self.error_label = tk.Label(
+                        self.master, text="", font=("Arial", 12), fg="red")
+                    self.error_label.pack(pady=10)
+
+                    # Create button
+                    self.open_button = tk.Button(self.master, text="OK", font=(
+                        "Arial", 12), command=self.open_excel_file)
+                    self.open_button.pack(pady=20)
+
+                def open_excel_file(self):
+                    # Disable button
+                    self.open_button.config(state="disabled")
+
+                    # Show loading label
+                    self.loading_label.pack()
+
+                    # Update GUI
+                    self.master.update()
+
+                    try:
+                        global workbook
+                        workbook = openpyxl.load_workbook(self.abs_path)
+                        # do something with the workbook object
+                    except:
+                        self.error_label.config(text="Error opening file!")
+                    else:
+                        self.error_label.config(
+                            text="File opened successfully!")
+                        root.destroy()
+                        root.quit()
+
+                    # Enable button
+                    self.open_button.config(state="normal")
+
+                    # Hide loading label
+                    self.loading_label.pack_forget()
+
+            # Create main window and pass abs_path as a parameter
+            root = tk.Tk()
+            root.geometry("300x200")
+            app = ExcelLoader(root, abs_path)
+            root.mainloop()
 
             if workbook:
                 correctFile = True
@@ -182,8 +231,8 @@ while haveAllColumn:
         global selectedYear
         selectedYear = var.get()
         print("Selected fiscal year:", selectedYear)
-        option.destroy()
         option.quit()
+        option.destroy()
 
     button = tk.Button(option, text="Select", command=buttonClick)
     button.pack()
