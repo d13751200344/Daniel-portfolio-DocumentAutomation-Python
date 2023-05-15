@@ -3,7 +3,8 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 import os
-from openpyxl.styles import Font, Border, Side, Alignment, PatternFill
+from openpyxl.styles import Font, PatternFill
+import sys
 
 
 def columnIntToLetter(index):
@@ -101,6 +102,10 @@ while not correctFile:
         root.withdraw()
         file_path = filedialog.askopenfilename()
 
+        if not file_path:
+            # User clicked 'Cancel', exit the loop
+            break
+
         if file_path and file_path[-4:] == 'xlsx':
             abs_path = os.path.abspath(file_path)
             print("File path:", abs_path)
@@ -113,7 +118,7 @@ while not correctFile:
 
                     # Create labels
                     self.loading_label = tk.Label(
-                        self.master, text="Loading may take you a few seconds...", font=("Arial", 12))
+                        self.master, text="Loading may take you a few seconds, please click 'OK' and wait for a while.", font=("Arial", 12), wraplength=250)
                     self.loading_label.pack(pady=20)
 
                     self.error_label = tk.Label(
@@ -238,6 +243,11 @@ while haveAllColumn:
     button = tk.Button(option, text="Select", command=buttonClick)
     button.pack()
 
+    def shut():
+        option.quit()
+        option.destroy()
+    # if click 'x', shut down the program
+    option.protocol("WM_DELETE_WINDOW", shut)
     option.mainloop()
 
     projectCountSet = set()  # count the number of projects
@@ -372,6 +382,10 @@ while haveAllColumn:
     root = tk.Tk()
     root.withdraw()  # Hide the tkinter window
     savePath = filedialog.asksaveasfilename()
+
+    if not savePath:
+        # User clicked 'Cancel', exit the loop
+        break
 
     # Save the file to the chosen location
     if savePath:
