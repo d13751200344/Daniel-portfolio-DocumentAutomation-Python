@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 import os
+from openpyxl.styles import Font, Border, Side, Alignment, PatternFill
 
 
 def columnIntToLetter(index):
@@ -315,6 +316,32 @@ while haveAllColumn:
     sheetOne['C6'] = studentNumbers
 
     sheetTwo = wb.create_sheet(title='details')
+
+    # Style the sheet
+    sheetOne.column_dimensions['B'].width = 20
+    sheetOne.column_dimensions['C'].width = 20
+    sheetTwo.column_dimensions['B'].width = 20
+    sheetTwo.column_dimensions['C'].width = 20
+    greyFill = PatternFill(
+        fill_type="solid", start_color='808080', end_color='808080')
+    lightGreyFill = PatternFill(
+        fill_type="solid", start_color="D9D9D9", end_color="D9D9D9")
+    blueFill = PatternFill(
+        fill_type="solid", start_color="4472C4", end_color="4472C4")
+    lightBlueFill = PatternFill(
+        fill_type="solid", start_color="D9E1F2", end_color="D9E1F2")
+    # sheet["B2"].fill = blueFill
+    columnList = ['B', 'C']
+    for i in columnList:
+        cell = i+'2'
+        sheetOne[cell].fill = greyFill
+        sheetOne[cell].font = Font(bold=True, color='FFFFFF')
+    for i in columnList:
+        for j in range(3, 7):
+            cell = i+str(j)
+            sheetOne[cell].fill = blueFill
+            sheetOne[cell].font = Font(bold=True, color='FFFFFF')
+
     columnNameList = ['Project #', 'Company', 'Faculty #1', 'Faculty #2', 'Faculty #3', 'Faculty #4', 'Faculty #5', 'Student #1', 'Student #2', 'Student #3', 'Student #4', 'Student #5', 'Student #6',
                       'Student #7', 'Student #8', 'Student #9', 'Student #10', 'Student #11', 'Student #12', 'Student #13', 'Student #14', 'Student #15', 'Student #16', 'Student #17', 'Student #18', 'Student #19', 'Student #20']
     for i in range(len(columnNameList)):
