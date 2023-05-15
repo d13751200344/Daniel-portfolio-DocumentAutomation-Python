@@ -4,7 +4,6 @@ from tkinter import filedialog
 from tkinter import messagebox
 import os
 from openpyxl.styles import Font, PatternFill
-import sys
 
 
 def columnIntToLetter(index):
