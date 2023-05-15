@@ -113,7 +113,7 @@ while not correctFile:
 
                     # Create labels
                     self.loading_label = tk.Label(
-                        self.master, text="Loading may take you a few seconds...", font=("Arial", 16))
+                        self.master, text="Loading may take you a few seconds...", font=("Arial", 12))
                     self.loading_label.pack(pady=20)
 
                     self.error_label = tk.Label(
@@ -155,7 +155,7 @@ while not correctFile:
 
             # Create main window and pass abs_path as a parameter
             root = tk.Tk()
-            root.geometry("300x200")
+            root.geometry("400x200")
             app = ExcelLoader(root, abs_path)
             root.mainloop()
 
