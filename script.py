@@ -4,7 +4,6 @@ from tkinter import filedialog
 from tkinter import messagebox
 import os
 from openpyxl.styles import Font, PatternFill
-import time
 
 
 def columnIntToLetter(index):
@@ -97,7 +96,7 @@ def msgWindow(msg):
 root = tk.Tk()
 root.title("Welcome")
 root.geometry("300x100")
-label = tk.Label(root, text="Welcome! Please select a file in next step.")
+label = tk.Label(root, text="Welcome! Please select a file.")
 label.pack(pady=10)
 
 
