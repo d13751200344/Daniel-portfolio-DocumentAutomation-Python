@@ -4,6 +4,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import os
 from openpyxl.styles import Font, PatternFill
+import time
 
 
 def columnIntToLetter(index):
@@ -91,9 +92,8 @@ def msgWindow(msg):
     closeBtn.pack(pady=10)
     window.mainloop()
 
+
 # Welcome window:
-
-
 root = tk.Tk()
 root.title("Welcome")
 root.geometry("300x100")
@@ -103,10 +103,8 @@ label.pack(pady=10)
 
 def btnClick():
     print("Click OK and begin to select a file...")
-    # toggle the control that will open the .xlsx file or not
     global correctFile
     correctFile = False
-
     root.quit()
     root.destroy()
 
@@ -148,66 +146,47 @@ while not correctFile:
 
                     # Create labels
                     self.loading_label = tk.Label(
-                        self.master, text="Loading may take you a few seconds, please click 'OK' and wait for a while.", font=("Arial", 12), wraplength=250)
-                    self.loading_label.pack(pady=20)
+                        self.master, text="Loading may take you a few seconds, please wait...", font=("Arial", 15), wraplength=250)
+                    self.loading_label.pack(pady=30)
 
                     self.error_label = tk.Label(
-                        self.master, text="", font=("Arial", 12), fg="red")
+                        self.master, text="", font=("Arial", 15), fg="red", wraplength=250)
                     self.error_label.pack(pady=10)
 
-                    # Create button
-                    self.open_button = tk.Button(self.master, text="OK", font=(
-                        "Arial", 12), command=self.open_excel_file)
-                    self.open_button.pack(pady=20)
+                    # Call the open_excel_file method
+                    self.open_excel_file()
 
                 def open_excel_file(self):
-                    # Disable button
-                    self.open_button.config(state="disabled")
-
-                    # Show loading label
-                    self.loading_label.pack()
-
-                    # Update GUI
                     self.master.update()
-
                     try:
                         global workbook
                         workbook = openpyxl.load_workbook(self.abs_path)
-                        # do something with the workbook object
+                        if workbook:
+                            root.destroy()
+                            root.quit()
                     except:
                         self.error_label.config(text="Error opening file!")
-                    else:
-                        self.error_label.config(
-                            text="File opened successfully!")
-                        root.destroy()
-                        root.quit()
 
-                    # Enable button
-                    self.open_button.config(state="normal")
-
-                    # Hide loading label
-                    self.loading_label.pack_forget()
-
-            # Create main window and pass abs_path as a parameter
+            # Create main window
             root = tk.Tk()
-            root.geometry("400x200")
+            root.geometry("400x150")
             app = ExcelLoader(root, abs_path)
-            root.mainloop()
+            # root.mainloop()
 
             if workbook:
                 correctFile = True
 
         else:
-            msg = "No file selected or invalid file."
+            msg = "Invalid file. Please select a valid .xlsx file."
             print(msg)
             messagebox.showinfo(
-                "Warning", "Invalid file. Please select a valid .xlsx file.")
+                "Warning", msg)
 
     except Exception:
-        msg = "Invalid file. Please select a valid .xlsx file."
-        msgWindow(msg)
+        msg = "Unexpected Error."
+        messagebox.showinfo(
+            "Warning", msg)
         print(msg)
-
 
 sheet = workbook.active
 
@@ -274,8 +253,7 @@ while haveAllColumn:
     button.pack()
 
     # if click 'x', shut down the program
-    # use shut() that was defined before
-    option.protocol("WM_DELETE_WINDOW", shut)
+    option.protocol("WM_DELETE_WINDOW", shut)  # use shut() that defines before
     option.mainloop()
 
     projectCountSet = set()  # count the number of projects
