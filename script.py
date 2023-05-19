@@ -91,9 +91,40 @@ def msgWindow(msg):
     closeBtn.pack(pady=10)
     window.mainloop()
 
+# Welcome window:
 
-# open the .xlsx file
-correctFile = False
+
+root = tk.Tk()
+root.title("Welcome")
+root.geometry("300x100")
+label = tk.Label(root, text="Welcome! Please select a file in next step.")
+label.pack(pady=10)
+
+
+def btnClick():
+    print("Click OK and begin to select a file...")
+    # toggle the control that will open the .xlsx file or not
+    global correctFile
+    correctFile = False
+
+    root.quit()
+    root.destroy()
+
+
+button = tk.Button(root, text="OK", command=btnClick)
+button.pack()
+
+
+def shut():
+    root.quit()
+    root.destroy()
+
+
+# if click 'x', shut down the program
+root.protocol("WM_DELETE_WINDOW", shut)
+root.mainloop()
+
+
 while not correctFile:
     try:
         # get the absolute path of the .xlsx file
@@ -242,10 +273,8 @@ while haveAllColumn:
     button = tk.Button(option, text="Select", command=buttonClick)
     button.pack()
 
-    def shut():
-        option.quit()
-        option.destroy()
     # if click 'x', shut down the program
+    # use shut() that was defined before
     option.protocol("WM_DELETE_WINDOW", shut)
     option.mainloop()
 
