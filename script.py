@@ -236,6 +236,7 @@ while haveAllColumn:
     label = tk.Label(option, text="Select a fiscal year:")
     label.pack()
     var = tk.StringVar(option)
+    var.set(None)  # make radio buttons not pre-selected
 
     for year in fiscalYearOption:
         yearOption = tk.Radiobutton(
